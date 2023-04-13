@@ -1,0 +1,79 @@
+/* Variabili CSS */
+:root
+{
+    /* Numero di foto del carosello */
+    /* Questa variabile viene usata solo per il calcolo del flex-basis delle immagini nel thumbnail */
+    --img_nr    : 5;
+}
+
+header
+{
+    flex-basis: 10%;
+}
+
+/* Attributi comuni a tutte le immagini del carosello */
+#carousel .image
+{
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+}
+
+#carousel .image + .img_text
+{
+    display: none;
+}
+
+/* Attributo esclusivo dell'immagine al centro del carosello */
+#carousel .image.active
+{
+    display: inline-block;
+}
+
+#carousel .image.active + .img_text
+{
+    display: block;
+}
+
+/* Attributi delle frecce di scorrimento del carosello e transizione al click sulla freccia */
+#prev, #next
+{
+    font-size: 3rem;
+    cursor: pointer;
+    color: white;
+    transition: all 20ms;
+}
+
+/* Transizione al click sulla freccia */
+#prev:active, #next:active
+{
+    color:blue;
+    font-size: 4rem;
+}
+
+#thumbnail
+{
+    width: 60%;
+    height: 10%;
+    align-self: center;
+}
+
+/* Attributi comuni a tutte le immagini del thumbnail */
+#thumbnail .image
+{
+    width: calc(90% / var(--img_nr));
+    height: 80%;  
+    object-fit: cover; 
+    object-position: center 35%;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+/* Attributi esclusivi dell'immagine attiva del thumbnail */
+#thumbnail .image.active
+{
+    opacity: 1;
+    border: 3px solid blue;
+}
