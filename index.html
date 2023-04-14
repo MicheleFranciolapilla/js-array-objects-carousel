@@ -39,8 +39,20 @@
         <div id="autoplay_panel" class="col-4 m-0 p-0">
             <div class="ms-3 h-100 border border-3 rounded-3 bg-light">
                 <h5 class="text-center text-black-50">Funzioni autoplay</h5>
-                <div>
-                    <button id="start_stop" type="button" class="btn btn-info"><i class="fa-solid fa-pause"></i></button>
+                <div class="d-flex p-1 px-3 justify-content-between align-content-around">
+                    <button id="start_stop" type="button" class="btn btn-info"><i class="fa-solid fa-pause"></i><i class="d-none fa-solid fa-play"></i></button>
+                    <div class="px-2 my-auto border border-1 border-primary rounded-2">
+                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_prev_mode">
+                        <label class="form-check-label me-3" for="autoplay_prev_mode"><i class="fa-solid fa-caret-left"></i></label>
+                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_random_mode" checked>
+                        <label class="form-check-label me-3" for="autoplay_random_mode"><i class="fa-solid fa-shuffle"></i></label>
+                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_next_mode">
+                        <label class="form-check-label" for="autoplay_next_mode"><i class="fa-solid fa-caret-right"></i></label>
+                    </div>
+                    <div>
+                        <!-- <label for="autoplay_timing" class="form-label">Frequenza</label> -->
+                        <input type="range" class="form-range" id="autoplay_timing" min="1000" max="10000">
+                    </div>
                 </div>
             </div>
         </div>
