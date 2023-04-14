@@ -18,7 +18,7 @@
     <title>Carosello di objects (JS)</title>
 </head>
 <body>
-    <div id="page_container" class="vh-100 d-flex flex-column m-0 p-0 bg-success">
+    <div id="page_container" class="vh-100 d-flex flex-column justify-content-start m-0 p-0 bg-success">
         <header>
             <h1 class="text-center text-primary">CAROSELLO</h1>
         </header>
@@ -31,9 +31,20 @@
             <!-- Freccia di scorrimento a destra -->
             <i id="next" class="col-1 text-center fa-regular fa-circle-right"></i>
         </main>
+        <section id="thumbs_and_autoplay" class="row mx-0 my-2 p-0">
         <!-- Contenitore delle immagini del thumbnail -->
-        <div id="thumbnail" class="d-flex justify-content-evenly align-items-center my-auto border border-3 rounded-3">
+        <div id="thumbnail" class="col-6 offset-1 d-flex justify-content-evenly align-items-center my-auto border border-3 rounded-3 bg-secondary">
         </div>
+        <!-- Contenitore dei comandi dell'autoplay -->
+        <div id="autoplay_panel" class="col-4 m-0 p-0">
+            <div class="ms-3 h-100 border border-3 rounded-3 bg-light">
+                <h5 class="text-center text-black-50">Funzioni autoplay</h5>
+                <div>
+                    <button id="start_stop" type="button" class="btn btn-info"><i class="fa-solid fa-pause"></i></button>
+                </div>
+            </div>
+        </div>
+        </section>
     </div>
     
     <!-- Script per Bootstrap 5 -->

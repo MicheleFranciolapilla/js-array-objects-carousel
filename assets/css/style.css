@@ -53,11 +53,17 @@ header
     font-size: 4rem;
 }
 
+#thumbs_and_autoplay
+{
+    height: 10%;
+}
+
 #thumbnail
 {
-    width: 60%;
-    height: 10%;
-    align-self: center;
+    /* width: 60%; */
+    height: 100%;
+    /* height: 10%; */
+    /* align-self: center; */
 }
 
 /* Attributi comuni a tutte le immagini del thumbnail */

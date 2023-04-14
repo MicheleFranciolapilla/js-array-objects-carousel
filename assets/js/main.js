@@ -60,7 +60,8 @@ const   autoplay_random = 0;
 const   autoplay_next   = 1;
 const   autoplay_prev   = 2;  
 let     autoplay_how    = autoplay_random; 
-let     autoplay_on; 
+let     autoplay_on     = false;  
+let     autoplay_go; 
 // Costanti associate agli elementi freccia (indietro e avanti)
 const   prev_arrow      = document.getElementById("prev");
 const   next_arrow      = document.getElementById("next"); 
@@ -92,6 +93,7 @@ function direct_click(index)
         current_active = index;
         update_active_img();
     }
+    reset_autoplay_timer();
 }
 
 // Funzione che crea gli elementi immagine e li collega al contenitore di riferimento (carosello o miniature)
@@ -180,14 +182,23 @@ function autoplay()
     console.log("autoplay");
 }
 
+function reset_autoplay_timer()
+{
+    if (autoplay_on)
+    {
+        stop_autoplay();
+        initialize_autoplay();
+    }
+}
+
 function stop_autoplay()
 {
-    clearInterval(autoplay_on);
+    clearInterval(autoplay_go);
 }
 
 function initialize_autoplay()
 {
-    autoplay_on = setInterval(autoplay, autoplay_time);
+    autoplay_go = setInterval(autoplay, autoplay_time);
 }
 
 function update_active_img()
@@ -199,12 +210,12 @@ function update_active_img()
 }
 
 // Event listener relativo al click sulla freccia sinistra
-prev_arrow.addEventListener("click", () => {going_prev(); stop_autoplay(); initialize_autoplay();});
+prev_arrow.addEventListener("click", () => {going_prev(); reset_autoplay_timer();});
 
 // Event listener relativo al click sulla freccia destra
-next_arrow.addEventListener("click", () => {going_next(); stop_autoplay(); initialize_autoplay();});
+next_arrow.addEventListener("click", () => {going_next(); reset_autoplay_timer();});
 
 // Sequenza principale
 
 initialize_img_sets();
-initialize_autoplay();
+// initialize_autoplay();
