@@ -226,10 +226,11 @@ function int_random(max)
 // Funzione utilizzata per il cambio immagini nella modalità random dell'autoplay
 function going_random()
 {
+    let random_img  = 0;
     previous_active = current_active;
     do
     {
-        let random_img = int_random(images.length);
+        random_img = int_random(images.length);
     } while (random_img == current_active);
     current_active = random_img;
     update_active_img();
