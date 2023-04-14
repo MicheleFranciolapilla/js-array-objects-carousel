@@ -253,6 +253,7 @@ function mode_changed()
 
 autoplay_btn.addEventListener("click", () => {manage_start_stop()});
 autoplay_timer.addEventListener("change", () => {manage_timer_range()});
+
 // Sequenza principale
 
 initialize_img_sets();
