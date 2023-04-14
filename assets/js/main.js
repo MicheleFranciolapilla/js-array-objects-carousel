@@ -72,13 +72,8 @@ function img_class_str(index)
     let final_str = "image";
     if (index == 0)
     {
-        // Classi ulteriori della prima immagine
-        final_str += " first active";
-    }
-    else if (index == images.length - 1)
-    {
-        // Classe ulteriore dell'ultima immagine
-        final_str += " last";
+        // Aggiunta della classe active alla prima immagine
+        final_str += " active";
     }
     return final_str;
 }
