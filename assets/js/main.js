@@ -180,6 +180,11 @@ function autoplay()
     console.log("autoplay");
 }
 
+function stop_autoplay()
+{
+    clearInterval(autoplay_on);
+}
+
 function initialize_autoplay()
 {
     autoplay_on = setInterval(autoplay, autoplay_time);
@@ -194,10 +199,10 @@ function update_active_img()
 }
 
 // Event listener relativo al click sulla freccia sinistra
-prev_arrow.addEventListener("click", () => going_prev());
+prev_arrow.addEventListener("click", () => {going_prev(); stop_autoplay(); initialize_autoplay();});
 
 // Event listener relativo al click sulla freccia destra
-next_arrow.addEventListener("click", () => going_next());
+next_arrow.addEventListener("click", () => {going_next(); stop_autoplay(); initialize_autoplay();});
 
 // Sequenza principale
 
