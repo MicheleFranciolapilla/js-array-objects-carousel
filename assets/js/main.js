@@ -99,21 +99,8 @@ function initialize_autoplay()
 }
 
 // Funzione principale dell'autoplay. A seconda della modalità di autoplay (valore di autoplay_how) invoca la corretta funzione
-function autoplay()
-{
-    switch (autoplay_how)
-    {
-        case autoplay_random:
-            going_random();
-            break;
-        case autoplay_next:
-            going_next();
-            break;
-        case autoplay_prev:
-            going_prev();
-            break;
-    }
-}
+// ***** Funzione con if ternario: *****
+function autoplay() {(autoplay_how == autoplay_random) ? going_random() : (autoplay_how == autoplay_next) ? going_next() : going_prev();}
 
 // Funzione che si occupa della rimozione della funzione di autoplay
 function stop_autoplay()
@@ -140,14 +127,7 @@ function manage_start_stop()
     // Inversione dello stato della variabile booleana specifica 
     autoplay_on = !autoplay_on;
     // Invocazione della funzione richiesta
-    if (autoplay_on)
-    {
-        initialize_autoplay();
-    }
-    else
-    {
-        stop_autoplay();
-    }
+    autoplay_on ? initialize_autoplay() : stop_autoplay();
 }
 
 // Funzione evocata ad ogni modifica del tempo di transizione tra le immagini mediante input range
@@ -170,17 +150,7 @@ function mode_changed()
 }
 
 // Funzione che crea la stringa appropriata a rappresentare la/e classe/i da assegnare alle immagini in fase di inizializzazione
-function img_class_str(index)
-{
-    // Classe generale
-    let final_str = "image";
-    if (index == 0)
-    {
-        // Aggiunta della classe active alla prima immagine
-        final_str += " active";
-    }
-    return final_str;
-}
+function img_class_str(index) {return (index == 0) ? ("image active") : ("image")}
 
 // Funzione collegata all'eventlistener del click sulle miniature; consente il cambio dell'immagine attiva
 function direct_click(index)
@@ -240,14 +210,7 @@ function going_random()
 function going_next()
 {
     previous_active = current_active;
-    if (current_active == images.length - 1)
-    {
-        current_active = 0;
-    }
-    else
-    {
-        current_active++;
-    }
+    (current_active == images.length - 1) ? (current_active = 0) : (current_active++)
     update_active_img();
 }
 
@@ -255,14 +218,7 @@ function going_next()
 function going_prev()
 {
     previous_active = current_active;
-    if (current_active == 0)
-    {
-        current_active = images.length - 1;
-    }
-    else
-    {
-        current_active--;
-    }
+    (current_active == 0) ? (current_active = images.length - 1) : (current_active--)
     update_active_img();
 }
 
