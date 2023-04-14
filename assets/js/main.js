@@ -55,13 +55,16 @@ const   images          = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
-const   autoplay_time   = 3000; 
 const   autoplay_random = 0;
 const   autoplay_next   = 1;
 const   autoplay_prev   = 2;  
+let     autoplay_time   = 3000; 
 let     autoplay_how    = autoplay_random; 
-let     autoplay_on     = false;  
+let     autoplay_on     = true;  
 let     autoplay_go; 
+let     autoplay_btn    = document.getElementById("start_stop");
+let     autoplay_mode   = document.getElementsByName("autoplay_mode");
+let     autoplay_timer  = document.getElementById("autoplay_timing");  
 // Costanti associate agli elementi freccia (indietro e avanti)
 const   prev_arrow      = document.getElementById("prev");
 const   next_arrow      = document.getElementById("next"); 
@@ -179,7 +182,7 @@ function autoplay()
             going_prev();
             break;
     }
-    console.log("autoplay");
+
 }
 
 function reset_autoplay_timer()
@@ -215,7 +218,26 @@ prev_arrow.addEventListener("click", () => {going_prev(); reset_autoplay_timer()
 // Event listener relativo al click sulla freccia destra
 next_arrow.addEventListener("click", () => {going_next(); reset_autoplay_timer();});
 
+function manage_start_stop()
+{
+    autoplay_btn.querySelectorAll("i").forEach((element) => element.classList.toggle("d-none"));
+    autoplay_on = !autoplay_on;
+    if (autoplay_on)
+    {
+        initialize_autoplay();
+    }
+    else
+    {
+        stop_autoplay();
+    }
+    console.log(autoplay_on);
+}
+
+autoplay_btn.addEventListener("click", () => {manage_start_stop()});
+
 // Sequenza principale
 
 initialize_img_sets();
-// initialize_autoplay();
+initialize_autoplay();
+console.log(autoplay_mode);
+console.log(autoplay_timer);
