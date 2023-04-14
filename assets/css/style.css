@@ -83,3 +83,9 @@ header
     opacity: 1;
     border: 3px solid blue;
 }
+
+#autoplay_mode_buttons, #autoplay_timing
+{
+    flex-basis: 33%;
+    flex-grow: 1;
+}
