@@ -85,8 +85,12 @@ function img_class_str(index)
 
 function direct_click(index)
 {
-    console.log("mi hai cliccato");
-    console.log("sono la miniatura: ", index);
+    if (index != current_active)
+    {
+        previous_active = current_active;
+        current_active = index;
+        update_active_img();
+    }
 }
 
 // Funzione che crea gli elementi immagine e li collega al contenitore di riferimento (carosello o miniature)
