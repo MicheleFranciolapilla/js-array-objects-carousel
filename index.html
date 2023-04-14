@@ -28,8 +28,7 @@
             <!-- Freccia di scorrimento a sinistra -->
             <i id="prev" class="col-1 text-center fa-regular fa-circle-left"></i>
             <!-- Contenitore delle immagini del carosello -->
-            <section id="carousel" class="h-100 col-10 border border-3 p-0 position-relative">
-            </section>
+            <section id="carousel" class="h-100 col-10 border border-3 p-0 position-relative"></section>
             <!-- Freccia di scorrimento a destra -->
             <i id="next" class="col-1 text-center fa-regular fa-circle-right"></i>
         </main>
@@ -44,6 +43,7 @@
                     <h5 class="text-center text-black-50">Funzioni autoplay</h5>
                     <!-- Flex container con, all'interno, tutti i controlli dell'autoplay -->
                     <div class="d-flex p-1 px-3 justify-content-between align-items-center">
+                        <!-- Raggruppamento flex dei radio buttons per la selezione del tipo di autoplay: random, previous, next -->
                         <div id="autoplay_mode_buttons" class="d-flex justify-content-between px-2 my-auto border border-1 border-primary rounded-2">
                             <div>
                                 <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_prev_mode" onchange="mode_changed()">
@@ -58,13 +58,13 @@
                                 <label class="form-check-label" for="autoplay_next_mode"><i class="fa-solid fa-caret-right"></i></label>
                             </div>
                         </div>
+                        <!-- Pulsante play/stop con relavive icone f.a. che alternano il display none -->
                         <button id="start_stop" type="button" class="btn btn-info mx-4"><i class="fa-solid fa-pause"></i><i class="d-none fa-solid fa-play"></i></button>
+                        <!-- Input di tipo range per la selezione del tempo di transizione dell'autoplay -->
                         <input type="range" class="form-range w-25" id="autoplay_timing" min="1000" max="10000" value="3000">
-                    <div>
                     </div>
                 </div>
             </div>
-        </div>
         </section>
     </div>
     

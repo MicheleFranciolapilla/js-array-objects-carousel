@@ -21,6 +21,7 @@ header
     object-position: center 35%;
 }
 
+/* Attributo display none da applicare a tutti i testi sibling di immagini */
 #carousel .image + .img_text
 {
     display: none;
@@ -32,6 +33,7 @@ header
     display: inline-block;
 }
 
+/* Rimozione del display none dai testi sibling dell'immagine active */
 #carousel .image.active + .img_text
 {
     display: block;
@@ -60,10 +62,7 @@ header
 
 #thumbnail
 {
-    /* width: 60%; */
     height: 100%;
-    /* height: 10%; */
-    /* align-self: center; */
 }
 
 /* Attributi comuni a tutte le immagini del thumbnail */

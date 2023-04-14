@@ -55,25 +55,119 @@ const   images          = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
+// Costanti e variabili relative alla funzione autoplay
+// Costanti di valore puramente semantico riferite alla modalità dell'autoplay: casuale, a sinistra, a destra
 const   autoplay_prev   = 0;  
 const   autoplay_random = 1;
 const   autoplay_next   = 2;
-let     autoplay_time   = 3000; 
+// Variabile di riferimento per la modalità di autoplay
 let     autoplay_how    = autoplay_random; 
+// Variabile di riferimento per il tempo di transizione nello sliding in autoplay
+let     autoplay_time   = 3000; 
+// Variabile booleana di stato dell'autoplay (on/off)
 let     autoplay_on     = true;  
+// Variabile utilizzata per l'attivazione e la disattivazione dell'autoplay
 let     autoplay_go; 
+// Associazione con i controlli dell'autoplay in index.html ......
+// ...... pulsante play/stop
 let     autoplay_btn    = document.getElementById("start_stop");
+// ...... radio buttons (previous, random, next)
 let     autoplay_mode   = document.getElementsByClassName("form-check-input"); 
+// ...... tempo di transizione immagine (in autoplay)
 let     autoplay_timer  = document.getElementById("autoplay_timing");  
 // Costanti associate agli elementi freccia (indietro e avanti)
 const   prev_arrow      = document.getElementById("prev");
 const   next_arrow      = document.getElementById("next"); 
+// Associazione con i due contenitori di immagini, carosello e miniature
 let     carousel_set    = document.getElementById("carousel");
 let     thumbnails_set  = document.getElementById("thumbnail");
+// Variabili utilizzate nei cambi di immagine attiva; current_active è l'indice dell'immagine attiva al momento
 let     current_active  = 0; 
 let     previous_active = 0;
+// Lista delle immagini nei due contenitori
 let     img_in_carousel;
 let     img_in_thumb; 
+
+
+// ***************************** FUNZIONI ******************************
+
+// Set di funzioni inerenti l'autoplay
+// Funzione di inizializzazione. Evocata nella sequenza principale del programma e ad ogni riattivazione dell'autoplay, dopo eventuali stop
+function initialize_autoplay()
+{
+    autoplay_go = setInterval(autoplay, autoplay_time);
+}
+
+// Funzione principale dell'autoplay. A seconda della modalità di autoplay (valore di autoplay_how) invoca la corretta funzione
+function autoplay()
+{
+    switch (autoplay_how)
+    {
+        case autoplay_random:
+            going_random();
+            break;
+        case autoplay_next:
+            going_next();
+            break;
+        case autoplay_prev:
+            going_prev();
+            break;
+    }
+}
+
+// Funzione che si occupa della rimozione della funzione di autoplay
+function stop_autoplay()
+{
+    clearInterval(autoplay_go);
+}
+
+// Funzione evocata ad ogni modifica dei parametri relativi all'autoplay e dopo ogni cambio immagine, per garantire alla nuova immagine una permanenza non inferiore al tempo impostato
+function reset_autoplay_timer()
+{
+    // Funzione operante solo con autoplay attivo
+    if (autoplay_on)
+    {
+        stop_autoplay();
+        initialize_autoplay();
+    }
+}
+
+// Funzione che gestisce lo switch di attivazione/disattivazione dell'autoplay, funzionalmente e visualmente (invertendo l'icona sul pulsante)
+function manage_start_stop()
+{
+    // Switch delle icone "play" e "pause" che si alternano sul pulsante
+    autoplay_btn.querySelectorAll("i").forEach((element) => element.classList.toggle("d-none"));
+    // Inversione dello stato della variabile booleana specifica 
+    autoplay_on = !autoplay_on;
+    // Invocazione della funzione richiesta
+    if (autoplay_on)
+    {
+        initialize_autoplay();
+    }
+    else
+    {
+        stop_autoplay();
+    }
+}
+
+// Funzione evocata ad ogni modifica del tempo di transizione tra le immagini mediante input range
+function manage_timer_range()
+{
+    autoplay_time = autoplay_timer.value;
+    reset_autoplay_timer();
+}
+
+// Funzione evocata ad ogni modifica della modalità di autoplay mediante radio buttons
+function mode_changed()
+{
+    let index = -1;
+    do
+    {
+        index++;
+    } while (!autoplay_mode[index].checked);
+    autoplay_how = index;
+    reset_autoplay_timer();
+}
 
 // Funzione che crea la stringa appropriata a rappresentare la/e classe/i da assegnare alle immagini in fase di inizializzazione
 function img_class_str(index)
@@ -88,6 +182,7 @@ function img_class_str(index)
     return final_str;
 }
 
+// Funzione collegata all'eventlistener del click sulle miniature; consente il cambio dell'immagine attiva
 function direct_click(index)
 {
     if (index != current_active)
@@ -113,33 +208,34 @@ function initialize_img_sets()
                                     </div>`; 
         thumbnails_set.innerHTML += current_str;
     }
+    // Acquisizione delle due liste di immagini e riposizionamento di alcune di esse
     img_in_carousel = carousel_set.querySelectorAll(".image");
     img_in_carousel[2].setAttribute("style","object-position: right center;");
     img_in_carousel[4].setAttribute("style","object-position: center;");
     img_in_thumb = thumbnails_set.querySelectorAll(".image");
-    img_in_thumb.forEach((element, index) => {element.addEventListener("click", function()
-    {
-        direct_click(index);
-    });});
+    // Attribuzione dell'addEventListener("click") a ciascuna immagine del thumbnail
+    img_in_thumb.forEach((element, index) => {element.addEventListener("click", function() {direct_click(index);});});
 }
 
+// Generatore di interi randomici
 function int_random(max)
 {
     return Math.floor(Math.random() * max);
 }
 
+// Funzione utilizzata per il cambio immagini nella modalità random dell'autoplay
 function going_random()
 {
-    let random_img = 0;
     previous_active = current_active;
     do
     {
-        random_img = int_random(images.length);
+        let random_img = int_random(images.length);
     } while (random_img == current_active);
     current_active = random_img;
     update_active_img();
 }
 
+// Funzione utilizzata per il cambio immagini nella modalità "da sinistra a destra" dell'autoplay
 function going_next()
 {
     previous_active = current_active;
@@ -154,6 +250,7 @@ function going_next()
     update_active_img();
 }
 
+// Funzione utilizzata per il cambio immagini nella modalità "da destra a sinistra" dell'autoplay
 function going_prev()
 {
     previous_active = current_active;
@@ -168,42 +265,7 @@ function going_prev()
     update_active_img();
 }
 
-function autoplay()
-{
-    switch (autoplay_how)
-    {
-        case autoplay_random:
-            going_random();
-            break;
-        case autoplay_next:
-            going_next();
-            break;
-        case autoplay_prev:
-            going_prev();
-            break;
-    }
-
-}
-
-function reset_autoplay_timer()
-{
-    if (autoplay_on)
-    {
-        stop_autoplay();
-        initialize_autoplay();
-    }
-}
-
-function stop_autoplay()
-{
-    clearInterval(autoplay_go);
-}
-
-function initialize_autoplay()
-{
-    autoplay_go = setInterval(autoplay, autoplay_time);
-}
-
+// Funzione che effettua concretamente il cambio dell'immagine attiva
 function update_active_img()
 {
     img_in_carousel[previous_active].classList.remove("active");
@@ -218,43 +280,14 @@ prev_arrow.addEventListener("click", () => {going_prev(); reset_autoplay_timer()
 // Event listener relativo al click sulla freccia destra
 next_arrow.addEventListener("click", () => {going_next(); reset_autoplay_timer();});
 
-function manage_start_stop()
-{
-    autoplay_btn.querySelectorAll("i").forEach((element) => element.classList.toggle("d-none"));
-    autoplay_on = !autoplay_on;
-    if (autoplay_on)
-    {
-        initialize_autoplay();
-    }
-    else
-    {
-        stop_autoplay();
-    }
-    console.log(autoplay_on);
-}
-
-function manage_timer_range()
-{
-    autoplay_time = autoplay_timer.value;
-    reset_autoplay_timer();
-    console.log(autoplay_time);
-}
-
-function mode_changed()
-{
-    let index = -1;
-    do
-    {
-        index++;
-    } while (!autoplay_mode[index].checked);
-    autoplay_how = index;
-    reset_autoplay_timer();
-}
-
+// Event listener relativo al click sul pulsante "play"-"pause"
 autoplay_btn.addEventListener("click", () => {manage_start_stop()});
+
+// Event listener relativo al cambio del tempo di transizione, mediante input range
 autoplay_timer.addEventListener("change", () => {manage_timer_range()});
 
 // Sequenza principale
-
+// Inizializzazione e caricamento delle immagini nei due contenitori "carousel" e "thumbnails"
 initialize_img_sets();
+// Inizializzazione della funzione di autoplay
 initialize_autoplay();
