@@ -206,6 +206,12 @@ const images            = [
 // Costanti associate agli elementi freccia (indietro e avanti)
 const   prev_arrow      = document.getElementById("prev");
 const   next_arrow      = document.getElementById("next"); 
+let     carousel_set    = document.getElementById("carousel");
+let     thumbnails_set  = document.getElementById("thumbnail");
+let     current_active  = 0; 
+let     previous_active = 0;
+let     img_in_carousel;
+let     img_in_thumb; 
 
 // Funzione che crea la stringa appropriata a rappresentare la/e classe/i da assegnare alle immagini in fase di inizializzazione
 function img_class_str(index)
@@ -228,8 +234,6 @@ function img_class_str(index)
 // Funzione che crea gli elementi immagine e li collega al contenitore di riferimento (carosello o miniature)
 function initialize_img_sets()
 {
-    let carousel_set    = document.getElementById("carousel");
-    let thumbnails_set  = document.getElementById("thumbnail");
     for (let i = 0; i < images.length; i++)
     {
         // Creiamo ed assegnamo contestualmente gli elementi immagine, con gli opportuni attributi, ai due contenitori di riferimento
@@ -238,14 +242,54 @@ function initialize_img_sets()
                                     <div class="img_text position-absolute bottom-0 end-0 w-75 pe-3 pb-3 text-end text-white">
                                         <h2>${images[i]["title"]}</h2>
                                         <h5>${images[i]["text"]}</h5>
-                                    </div>
-                                    `; 
+                                    </div>`; 
         thumbnails_set.innerHTML += current_str;
     }
-    console.log(carousel_set);
-    console.log(thumbnails_set);
+    img_in_carousel = carousel_set.querySelectorAll(".image");
+    img_in_thumb = thumbnails_set.querySelectorAll(".image");
 }
+
+function update_active_img()
+{
+    img_in_carousel[previous_active].classList.remove("active");
+    img_in_thumb[previous_active].classList.remove("active");
+    img_in_carousel[current_active].classList.add("active");
+    img_in_thumb[current_active].classList.add("active");
+}
+
+// Event listener relativo al click sulla freccia sinistra
+prev_arrow.addEventListener("click", function()
+{
+    previous_active = current_active;
+    if (current_active == 0)
+    {
+        current_active = images.length - 1;
+    }
+    else
+    {
+        current_active--;
+    }
+    update_active_img();
+});
+
+// Event listener relativo al click sulla freccia destra
+next_arrow.addEventListener("click", function()
+{
+    previous_active = current_active;
+    if (current_active == images.length - 1)
+    {
+        current_active = 0;
+    }
+    else
+    {
+        current_active++;
+    }
+    update_active_img();
+});
+
 
 // Sequenza principale
 
 initialize_img_sets();
+img_in_carousel[2].setAttribute("style","object-position: right center;");
+img_in_carousel[4].setAttribute("style","object-position: center;");
