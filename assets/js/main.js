@@ -55,15 +55,15 @@ const   images          = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
-const   autoplay_random = 0;
-const   autoplay_next   = 1;
-const   autoplay_prev   = 2;  
+const   autoplay_prev   = 0;  
+const   autoplay_random = 1;
+const   autoplay_next   = 2;
 let     autoplay_time   = 3000; 
 let     autoplay_how    = autoplay_random; 
 let     autoplay_on     = true;  
 let     autoplay_go; 
 let     autoplay_btn    = document.getElementById("start_stop");
-let     autoplay_mode   = document.getElementsByName("autoplay_mode");
+let     autoplay_mode   = document.getElementsByClassName("form-check-input"); 
 let     autoplay_timer  = document.getElementById("autoplay_timing");  
 // Costanti associate agli elementi freccia (indietro e avanti)
 const   prev_arrow      = document.getElementById("prev");
@@ -240,11 +240,20 @@ function manage_timer_range()
     console.log(autoplay_time);
 }
 
+function mode_changed()
+{
+    let index = -1;
+    do
+    {
+        index++;
+    } while (!autoplay_mode[index].checked);
+    autoplay_how = index;
+    reset_autoplay_timer();
+}
+
 autoplay_btn.addEventListener("click", () => {manage_start_stop()});
 autoplay_timer.addEventListener("change", () => {manage_timer_range()});
 // Sequenza principale
 
 initialize_img_sets();
 initialize_autoplay();
-console.log(autoplay_mode);
-console.log(autoplay_timer);

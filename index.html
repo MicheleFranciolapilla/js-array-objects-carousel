@@ -41,12 +41,12 @@
                 <h5 class="text-center text-black-50">Funzioni autoplay</h5>
                 <div class="d-flex p-1 px-3 justify-content-between align-content-around">
                     <button id="start_stop" type="button" class="btn btn-info"><i class="fa-solid fa-pause"></i><i class="d-none fa-solid fa-play"></i></button>
-                    <div class="px-2 my-auto border border-1 border-primary rounded-2">
-                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_prev_mode">
+                    <div id="autoplay_mode_buttons" class="px-2 my-auto border border-1 border-primary rounded-2">
+                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_prev_mode" onchange="mode_changed()">
                         <label class="form-check-label me-3" for="autoplay_prev_mode"><i class="fa-solid fa-caret-left"></i></label>
-                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_random_mode" checked>
+                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_random_mode" checked onchange="mode_changed()">
                         <label class="form-check-label me-3" for="autoplay_random_mode"><i class="fa-solid fa-shuffle"></i></label>
-                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_next_mode">
+                        <input class="form-check-input" type="radio" name="autoplay_mode" id="autoplay_next_mode" onchange="mode_changed()">
                         <label class="form-check-label" for="autoplay_next_mode"><i class="fa-solid fa-caret-right"></i></label>
                     </div>
                     <div>
