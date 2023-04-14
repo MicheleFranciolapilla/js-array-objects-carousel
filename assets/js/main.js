@@ -26,9 +26,9 @@
 
 // Costanti e Variabili globali:
 // Percorso per la cartella delle immagini
-const img_folder_path   = "assets/";
+const   img_folder_path = "assets/";
 // Array di oggetti (immagine, titolo, testo)
-const images            = [
+const   images          = [
     {
         image: 'img/01.webp',
         title: 'Marvel\'s Spiderman Miles Morale',
@@ -55,6 +55,12 @@ const images            = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
+const   autoplay_time   = 3000; 
+const   autoplay_random = 0;
+const   autoplay_next   = 1;
+const   autoplay_prev   = 2;  
+let     autoplay_how    = autoplay_random; 
+let     autoplay_on; 
 // Costanti associate agli elementi freccia (indietro e avanti)
 const   prev_arrow      = document.getElementById("prev");
 const   next_arrow      = document.getElementById("next"); 
@@ -103,6 +109,8 @@ function initialize_img_sets()
         thumbnails_set.innerHTML += current_str;
     }
     img_in_carousel = carousel_set.querySelectorAll(".image");
+    img_in_carousel[2].setAttribute("style","object-position: right center;");
+    img_in_carousel[4].setAttribute("style","object-position: center;");
     img_in_thumb = thumbnails_set.querySelectorAll(".image");
     img_in_thumb.forEach((element, index) => {element.addEventListener("click", function()
     {
@@ -110,31 +118,24 @@ function initialize_img_sets()
     });});
 }
 
-function update_active_img()
+function int_random(max)
 {
-    img_in_carousel[previous_active].classList.remove("active");
-    img_in_thumb[previous_active].classList.remove("active");
-    img_in_carousel[current_active].classList.add("active");
-    img_in_thumb[current_active].classList.add("active");
+    return Math.floor(Math.random() * max);
 }
 
-// Event listener relativo al click sulla freccia sinistra
-prev_arrow.addEventListener("click", function()
+function going_random()
 {
+    let random_img = 0;
     previous_active = current_active;
-    if (current_active == 0)
+    do
     {
-        current_active = images.length - 1;
-    }
-    else
-    {
-        current_active--;
-    }
+        random_img = int_random(images.length);
+    } while (random_img == current_active);
+    current_active = random_img;
     update_active_img();
-});
+}
 
-// Event listener relativo al click sulla freccia destra
-next_arrow.addEventListener("click", function()
+function going_next()
 {
     previous_active = current_active;
     if (current_active == images.length - 1)
@@ -146,11 +147,59 @@ next_arrow.addEventListener("click", function()
         current_active++;
     }
     update_active_img();
-});
+}
 
+function going_prev()
+{
+    previous_active = current_active;
+    if (current_active == 0)
+    {
+        current_active = images.length - 1;
+    }
+    else
+    {
+        current_active--;
+    }
+    update_active_img();
+}
+
+function autoplay()
+{
+    switch (autoplay_how)
+    {
+        case autoplay_random:
+            going_random();
+            break;
+        case autoplay_next:
+            going_next();
+            break;
+        case autoplay_prev:
+            going_prev();
+            break;
+    }
+    console.log("autoplay");
+}
+
+function initialize_autoplay()
+{
+    autoplay_on = setInterval(autoplay, autoplay_time);
+}
+
+function update_active_img()
+{
+    img_in_carousel[previous_active].classList.remove("active");
+    img_in_thumb[previous_active].classList.remove("active");
+    img_in_carousel[current_active].classList.add("active");
+    img_in_thumb[current_active].classList.add("active");
+}
+
+// Event listener relativo al click sulla freccia sinistra
+prev_arrow.addEventListener("click", () => going_prev());
+
+// Event listener relativo al click sulla freccia destra
+next_arrow.addEventListener("click", () => going_next());
 
 // Sequenza principale
 
 initialize_img_sets();
-img_in_carousel[2].setAttribute("style","object-position: right center;");
-img_in_carousel[4].setAttribute("style","object-position: center;");
+initialize_autoplay();
